@@ -7,27 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E50C7BA1BF6BE0300CAE344 /* ALGInitialTouchGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC13EF11BE40592005A00CD /* ALGInitialTouchGestureRecognizer.swift */; };
 		5E822F311BD4D2B400C32C09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E822F301BD4D2B400C32C09 /* AppDelegate.swift */; };
 		5E822F331BD4D2B400C32C09 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E822F321BD4D2B400C32C09 /* ViewController.swift */; };
 		5E822F361BD4D2B400C32C09 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E822F341BD4D2B400C32C09 /* Main.storyboard */; };
 		5E822F381BD4D2B400C32C09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E822F371BD4D2B400C32C09 /* Assets.xcassets */; };
 		5E822F3B1BD4D2B400C32C09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E822F391BD4D2B400C32C09 /* LaunchScreen.storyboard */; };
-		5E822F431BD4D2C800C32C09 /* TouchVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E822F421BD4D2C800C32C09 /* TouchVisualizer.swift */; settings = {ASSET_TAGS = (); }; };
+		5E822F431BD4D2C800C32C09 /* TouchDisplayingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E822F421BD4D2C800C32C09 /* TouchDisplayingWindow.swift */; };
+		5EA238081BE94AB200D2A1AF /* TouchDisplayingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E822F421BD4D2C800C32C09 /* TouchDisplayingWindow.swift */; };
+		5EC13EE21BE4053C005A00CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC13EE11BE4053C005A00CD /* AppDelegate.swift */; };
+		5EC13EE41BE4053C005A00CD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC13EE31BE4053C005A00CD /* ViewController.swift */; };
+		5EC13EE71BE4053C005A00CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EC13EE51BE4053C005A00CD /* Main.storyboard */; };
+		5EC13EE91BE4053C005A00CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EC13EE81BE4053C005A00CD /* Assets.xcassets */; };
+		5EC13EEC1BE4053C005A00CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EC13EEA1BE4053C005A00CD /* LaunchScreen.storyboard */; };
+		5EC13EF21BE40592005A00CD /* ALGInitialTouchGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC13EF11BE40592005A00CD /* ALGInitialTouchGestureRecognizer.swift */; };
+		5EF6992A1BE98219006775DA /* ALGSqueezeGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF699291BE98219006775DA /* ALGSqueezeGestureRecognizer.swift */; };
+		5EF6992C1BE9D1CA006775DA /* ALG3DTouchThreshholdGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF6992B1BE9D1CA006775DA /* ALG3DTouchThreshholdGestureRecognizer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5E822F2D1BD4D2B400C32C09 /* TouchVisualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchVisualizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E822F301BD4D2B400C32C09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5E822F321BD4D2B400C32C09 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5E822F321BD4D2B400C32C09 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5E822F351BD4D2B400C32C09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5E822F371BD4D2B400C32C09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5E822F3A1BD4D2B400C32C09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5E822F3C1BD4D2B400C32C09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5E822F421BD4D2C800C32C09 /* TouchVisualizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchVisualizer.swift; sourceTree = "<group>"; };
+		5E822F421BD4D2C800C32C09 /* TouchDisplayingWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = TouchDisplayingWindow.swift; path = TouchVisualizer/TouchDisplayingWindow.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		5EC13EDF1BE4053C005A00CD /* ForceDataCollector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForceDataCollector.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EC13EE11BE4053C005A00CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5EC13EE31BE4053C005A00CD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		5EC13EE61BE4053C005A00CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5EC13EE81BE4053C005A00CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5EC13EEB1BE4053C005A00CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5EC13EED1BE4053C005A00CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5EC13EF11BE40592005A00CD /* ALGInitialTouchGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = ALGInitialTouchGestureRecognizer.swift; path = ForcePropertiesGestureRecognizer/ALGInitialTouchGestureRecognizer.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		5EF699291BE98219006775DA /* ALGSqueezeGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALGSqueezeGestureRecognizer.swift; sourceTree = "<group>"; };
+		5EF6992B1BE9D1CA006775DA /* ALG3DTouchThreshholdGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ALG3DTouchThreshholdGestureRecognizer.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		5E822F2A1BD4D2B400C32C09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5EC13EDC1BE4053C005A00CD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -40,7 +67,9 @@
 		5E822F241BD4D2B400C32C09 = {
 			isa = PBXGroup;
 			children = (
+				5EA238091BE94B5000D2A1AF /* Common */,
 				5E822F2F1BD4D2B400C32C09 /* TouchVisualizer */,
+				5EC13EE01BE4053C005A00CD /* ForceDataCollector */,
 				5E822F2E1BD4D2B400C32C09 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				5E822F2D1BD4D2B400C32C09 /* TouchVisualizer.app */,
+				5EC13EDF1BE4053C005A00CD /* ForceDataCollector.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,9 +92,33 @@
 				5E822F371BD4D2B400C32C09 /* Assets.xcassets */,
 				5E822F391BD4D2B400C32C09 /* LaunchScreen.storyboard */,
 				5E822F3C1BD4D2B400C32C09 /* Info.plist */,
-				5E822F421BD4D2C800C32C09 /* TouchVisualizer.swift */,
 			);
 			path = TouchVisualizer;
+			sourceTree = "<group>";
+		};
+		5EA238091BE94B5000D2A1AF /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				5EC13EF11BE40592005A00CD /* ALGInitialTouchGestureRecognizer.swift */,
+				5EF699291BE98219006775DA /* ALGSqueezeGestureRecognizer.swift */,
+				5EF6992B1BE9D1CA006775DA /* ALG3DTouchThreshholdGestureRecognizer.swift */,
+				5E822F421BD4D2C800C32C09 /* TouchDisplayingWindow.swift */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		5EC13EE01BE4053C005A00CD /* ForceDataCollector */ = {
+			isa = PBXGroup;
+			children = (
+				5EC13EE11BE4053C005A00CD /* AppDelegate.swift */,
+				5EC13EE31BE4053C005A00CD /* ViewController.swift */,
+				5EC13EE51BE4053C005A00CD /* Main.storyboard */,
+				5EC13EE81BE4053C005A00CD /* Assets.xcassets */,
+				5EC13EEA1BE4053C005A00CD /* LaunchScreen.storyboard */,
+				5EC13EED1BE4053C005A00CD /* Info.plist */,
+			);
+			name = ForceDataCollector;
+			path = ForcePropertiesGestureRecognizer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -87,17 +141,38 @@
 			productReference = 5E822F2D1BD4D2B400C32C09 /* TouchVisualizer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		5EC13EDE1BE4053C005A00CD /* ForceDataCollector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5EC13EF01BE4053C005A00CD /* Build configuration list for PBXNativeTarget "ForceDataCollector" */;
+			buildPhases = (
+				5EC13EDB1BE4053C005A00CD /* Sources */,
+				5EC13EDC1BE4053C005A00CD /* Frameworks */,
+				5EC13EDD1BE4053C005A00CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ForceDataCollector;
+			productName = ForcePropertiesGestureRecognizer;
+			productReference = 5EC13EDF1BE4053C005A00CD /* ForceDataCollector.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		5E822F251BD4D2B400C32C09 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Alexis Gallagher";
 				TargetAttributes = {
 					5E822F2C1BD4D2B400C32C09 = {
 						CreatedOnToolsVersion = 7.0.1;
+					};
+					5EC13EDE1BE4053C005A00CD = {
+						CreatedOnToolsVersion = 7.1;
 					};
 				};
 			};
@@ -115,6 +190,7 @@
 			projectRoot = "";
 			targets = (
 				5E822F2C1BD4D2B400C32C09 /* TouchVisualizer */,
+				5EC13EDE1BE4053C005A00CD /* ForceDataCollector */,
 			);
 		};
 /* End PBXProject section */
@@ -130,6 +206,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5EC13EDD1BE4053C005A00CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EC13EEC1BE4053C005A00CD /* LaunchScreen.storyboard in Resources */,
+				5EC13EE91BE4053C005A00CD /* Assets.xcassets in Resources */,
+				5EC13EE71BE4053C005A00CD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -139,7 +225,21 @@
 			files = (
 				5E822F331BD4D2B400C32C09 /* ViewController.swift in Sources */,
 				5E822F311BD4D2B400C32C09 /* AppDelegate.swift in Sources */,
-				5E822F431BD4D2C800C32C09 /* TouchVisualizer.swift in Sources */,
+				5E822F431BD4D2C800C32C09 /* TouchDisplayingWindow.swift in Sources */,
+				5EF6992A1BE98219006775DA /* ALGSqueezeGestureRecognizer.swift in Sources */,
+				5EF6992C1BE9D1CA006775DA /* ALG3DTouchThreshholdGestureRecognizer.swift in Sources */,
+				5E50C7BA1BF6BE0300CAE344 /* ALGInitialTouchGestureRecognizer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5EC13EDB1BE4053C005A00CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EC13EF21BE40592005A00CD /* ALGInitialTouchGestureRecognizer.swift in Sources */,
+				5EA238081BE94AB200D2A1AF /* TouchDisplayingWindow.swift in Sources */,
+				5EC13EE41BE4053C005A00CD /* ViewController.swift in Sources */,
+				5EC13EE21BE4053C005A00CD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +258,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				5E822F3A1BD4D2B400C32C09 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		5EC13EE51BE4053C005A00CD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5EC13EE61BE4053C005A00CD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5EC13EEA1BE4053C005A00CD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5EC13EEB1BE4053C005A00CD /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -268,6 +384,30 @@
 			};
 			name = Release;
 		};
+		5EC13EEE1BE4053C005A00CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ForcePropertiesGestureRecognizer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexisgallagher.ForcePropertiesGestureRecognizer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5EC13EEF1BE4053C005A00CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ForcePropertiesGestureRecognizer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexisgallagher.ForcePropertiesGestureRecognizer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -287,6 +427,16 @@
 				5E822F411BD4D2B400C32C09 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5EC13EF01BE4053C005A00CD /* Build configuration list for PBXNativeTarget "ForceDataCollector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5EC13EEE1BE4053C005A00CD /* Debug */,
+				5EC13EEF1BE4053C005A00CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

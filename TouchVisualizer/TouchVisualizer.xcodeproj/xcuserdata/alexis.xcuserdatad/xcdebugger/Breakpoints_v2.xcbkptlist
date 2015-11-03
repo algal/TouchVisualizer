@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TouchVisualizer/TouchVisualizer.swift"
+            timestampString = "466988323.02239"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "sendEvent(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ALG3DTouchThreshholdGestureRecognizer.swift"
+            timestampString = "469582248.113318"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "touchesWithAction(_:withEvent:phase:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TouchVisualizer.ALG3DTouchThreshholdGestureRecognizer.(touchesWithAction in _2579E7D80DECCAB313D8828A7BDE0BDF) (TouchVisualizer.ALG3DTouchThreshholdGestureRecognizer)(Swift.Set&lt;__ObjC.UITouch&gt;, withEvent : __ObjC.UIEvent, phase : __C.UITouchPhase) -&gt; ()"
+                  moduleName = "TouchVisualizer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexis/workspace/myprojects/3DTouch-demo-repo/TouchVisualizer/ALG3DTouchThreshholdGestureRecognizer.swift"
+                  timestampString = "469564451.074534"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "185"
+                  endingLineNumber = "185"
+                  offsetFromSymbolStart = "1888">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TouchVisualizer.ALG3DTouchThreshholdGestureRecognizer.((touchesWithAction in _2579E7D80DECCAB313D8828A7BDE0BDF) (TouchVisualizer.ALG3DTouchThreshholdGestureRecognizer) -&gt; (Swift.Set&lt;__ObjC.UITouch&gt;, withEvent : __ObjC.UIEvent, phase : __C.UITouchPhase) -&gt; ()).(closure #1)"
+                  moduleName = "TouchVisualizer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexis/workspace/myprojects/3DTouch-demo-repo/TouchVisualizer/ALG3DTouchThreshholdGestureRecognizer.swift"
+                  timestampString = "469564451.074961"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "185"
+                  endingLineNumber = "185"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ALG3DTouchThreshholdGestureRecognizer.swift"
+            timestampString = "469582248.113318"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "touchesWithAction(_:withEvent:phase:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ALG3DTouchThreshholdGestureRecognizer.swift"
+            timestampString = "469582248.113318"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "shouldReportThreshholdCrossingForForceChanged(_:currentNormalizedForce:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ALG3DTouchThreshholdGestureRecognizer.swift"
+            timestampString = "469582248.113318"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
+            landmarkName = "evaluateForceChangeWithZones(_:currentNormalizedForce:zones:indexesOfThreshholdZones:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ALG3DTouchThreshholdGestureRecognizer.swift"
+            timestampString = "469582248.113318"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "ALG3DTouchThreshholdGestureRecognizer"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ALG3DTouchThreshholdGestureRecognizer.swift"
+            timestampString = "469582248.113318"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "touchesWithAction(_:withEvent:phase:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ALG3DTouchThreshholdGestureRecognizer.swift"
+            timestampString = "469582248.113318"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "touchesWithAction(_:withEvent:phase:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Touch Logging View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="TouchLoggingViewController" customModule="ForcePropertiesGestureRecognizer" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0md-Sh-yGK">
+                                <rect key="frame" x="20" y="20" width="560" height="253"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l8r-nO-fbF">
+                                <rect key="frame" x="20" y="273" width="560" height="252"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="9Cv-R4-RjQ"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="9Cv-R4-RjQ"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z9Z-cK-DRg">
+                                <rect key="frame" x="20" y="525" width="560" height="75"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Y0-Yb-Lcu">
+                                        <rect key="frame" x="192" y="23" width="177" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Log to iTunes File Sharing"/>
+                                        <connections>
+                                            <action selector="log:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LYK-jx-r11"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="6Y0-Yb-Lcu" firstAttribute="centerX" secondItem="Z9Z-cK-DRg" secondAttribute="centerX" id="FOq-h0-jrN"/>
+                                    <constraint firstItem="6Y0-Yb-Lcu" firstAttribute="centerY" secondItem="Z9Z-cK-DRg" secondAttribute="centerY" id="Fqi-sU-RNA"/>
+                                    <constraint firstAttribute="height" constant="75" id="kyq-xd-Tp5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="l8r-nO-fbF" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="34r-EH-HFa"/>
+                            <constraint firstItem="0md-Sh-yGK" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="BMf-Fe-f5V"/>
+                            <constraint firstItem="l8r-nO-fbF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="DfO-8W-VLm"/>
+                            <constraint firstItem="0md-Sh-yGK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="HO6-jB-kHf"/>
+                            <constraint firstItem="Z9Z-cK-DRg" firstAttribute="top" secondItem="l8r-nO-fbF" secondAttribute="bottom" id="LF6-Df-cFc"/>
+                            <constraint firstItem="l8r-nO-fbF" firstAttribute="height" secondItem="0md-Sh-yGK" secondAttribute="height" id="Qpa-hi-DR8"/>
+                            <constraint firstItem="l8r-nO-fbF" firstAttribute="top" secondItem="0md-Sh-yGK" secondAttribute="bottom" id="ZcJ-mB-wQB"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Z9Z-cK-DRg" secondAttribute="bottom" id="bms-gN-lMj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0md-Sh-yGK" secondAttribute="trailing" id="ldj-nF-31G"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Z9Z-cK-DRg" secondAttribute="trailing" id="pfr-XL-lDn"/>
+                            <constraint firstItem="Z9Z-cK-DRg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="sv6-bO-1fr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="l8r-nO-fbF" secondAttribute="trailing" id="toO-aF-2U7"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="34r-EH-HFa"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="0md-Sh-yGK" id="BGZ-vg-ln6"/>
+                        <outlet property="touchableView" destination="l8r-nO-fbF" id="YBc-Kq-Qib"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="264" y="281"/>
+        </scene>
+    </scenes>
+</document>

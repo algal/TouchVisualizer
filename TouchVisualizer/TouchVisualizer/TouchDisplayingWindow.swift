@@ -95,10 +95,20 @@ class TouchDisplayingWindow: UIWindow
 // view displaying info on active touches
 private class OverlayGraphicView : UIView
 {
-  var shouldDisplayForce:Bool = true
-  var shouldDisplayRadius:Bool = true
+  /// displays 3D Touch force as an orange circle
+  var shouldDisplayForce:Bool       = true
+
+  /// displays radius of the touch as a white circle
+  var shouldDisplayRadius:Bool      = true
+
+  /// displays annulus marking erro range around the radius
   var shouldDisplayRadiusError:Bool = true
-  var shouldDisplayLegends:Bool = true
+
+  /// displays small legends near the touch
+  var shouldDisplayLegends:Bool     = true
+
+  /// displays large force and/or radius label on the left side, of the topleft-most touch
+  var shouldDisplayBigLegends:Bool  = true
   
   var activeTouches:Set<UITouch> = Set() {
     didSet {
@@ -170,27 +180,48 @@ private class OverlayGraphicView : UIView
       
       if shouldDisplayForce && shouldDisplayLegends {
         // draw force string
+        let percentString = String(format:"f: %4.3f\u{2007}%2.0f%%",rawForce,Float(fractionalForce * 100)) as NSString
+        let textAttributes = numericalTextAttributesWithSize(16, color: forceOverlayColor)
         let textOrigin = CGPoint(x: centerPoint.x + 40, y: centerPoint.y - 70)
-        let percentString = String(format:"f: %4.3f\u{2007}%2.0f%%",rawForce,Float(fractionalForce * 100))
-        let textAttributes2 = numericalTextAttributesWithSize(16, color: forceOverlayColor)
-        (percentString as NSString).drawAtPoint(textOrigin, withAttributes: textAttributes2)
+        percentString.drawAtPoint(textOrigin, withAttributes: textAttributes)
       }
       
       if shouldDisplayRadius && shouldDisplayLegends {
         // draw force string
-        let textOrigin = CGPoint(x: centerPoint.x + 40, y: centerPoint.y + 70)
-        let percentString = String(format:"r: %2.1f",Float(majorRadius))
+        let percentString = String(format:"r: %2.1f",Float(majorRadius)) as NSString
         let textAttributes = numericalTextAttributesWithSize(16, color: radiusOverlayColor)
-        (percentString as NSString).drawAtPoint(textOrigin, withAttributes: textAttributes)
+        let textOrigin = CGPoint(x: centerPoint.x + 40, y: centerPoint.y + 70)
+        percentString.drawAtPoint(textOrigin, withAttributes: textAttributes)
+      }
+
+      // show only one touch's info in the big legend
+      
+      func dist(a:UITouch) -> CGFloat {
+        return ((a.locationInView(self).x * a.locationInView(self).x) +
+          (a.locationInView(self).y * a.locationInView(self).y))
+      }
+      
+      let isTopLeftMostTouch:Bool = touch == Array(activeTouches).sort({ dist($0) <= dist($1) }).first!
+      
+      if shouldDisplayForce && shouldDisplayBigLegends && isTopLeftMostTouch {
+        // draw force string
+        let percentString = String(format:"f: %5.4f\u{2007}%2.0f%%",rawForce,Float(fractionalForce * 100)) as NSString
+        let textAttributes = numericalTextAttributesWithSize(46, color: forceOverlayColor)
+        let textSize = percentString.sizeWithAttributes(textAttributes)
+        let textOrigin = CGPoint(x: CGRectGetMaxX(rect) - textSize.width, y: CGRectGetMinY(rect))
+        percentString.drawAtPoint(textOrigin, withAttributes: textAttributes)
+      }
+      
+      if shouldDisplayRadius && shouldDisplayBigLegends && isTopLeftMostTouch {
+        // draw force string
+        let percentString = String(format:"r: %3.2f",Float(majorRadius)) as NSString
+        let textAttributes = numericalTextAttributesWithSize(46, color: radiusOverlayColor)
+        let textSize = percentString.sizeWithAttributes(textAttributes)
+        let textOrigin = CGPoint(x: CGRectGetMaxX(rect) - textSize.width, y: CGRectGetMaxY(rect) - textSize.height)
+        percentString.drawAtPoint(textOrigin, withAttributes: textAttributes)
       }
     }
   }
-
-  override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
-    let forceCapable = self.traitCollection.forceTouchCapability == .Available
-    NSLog("overlayview.forceCapable=\(forceCapable)")
-  }
-
 }
 
 private func numericalTextAttributesWithSize(size:CGFloat,color:UIColor) -> [String:AnyObject] {
