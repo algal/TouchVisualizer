@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return touchWindow
       }
       else {
-        self.touchWindow = TouchDisplayingWindow(frame: UIScreen.mainScreen().bounds)
+        self.touchWindow = TouchDisplayingWindow(frame: UIScreen.main.bounds)
         // initialize presuming we are not on a force-capable device, and then
         // activate later after checking the trait collection property
         self.touchWindow?.forceActive = true

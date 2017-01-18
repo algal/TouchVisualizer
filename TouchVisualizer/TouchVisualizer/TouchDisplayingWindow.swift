@@ -39,7 +39,7 @@ KNOWN GOOD: iPhone 5 (iOS 9.0.2), iPhone 6 (iOS 9.0), Xcode 7.0.1
 class TouchDisplayingWindow: UIWindow
 {
   // if the view should do anything (rather than behave like UIWindow)
-  var active:Bool = true { didSet { overlayView.hidden = !active } }
+  var active:Bool = true { didSet { overlayView.isHidden = !active } }
 
   // if the view should display force information
   var forceActive:Bool  {
@@ -47,7 +47,7 @@ class TouchDisplayingWindow: UIWindow
     set { overlayView.shouldDisplayForce = newValue }
   }
 
-  private let overlayView = OverlayGraphicView(frame: CGRectZero)
+  fileprivate let overlayView = OverlayGraphicView(frame: CGRect.zero)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -58,22 +58,22 @@ class TouchDisplayingWindow: UIWindow
     setup()
   }
   
-  override func didAddSubview(subview: UIView) {
+  override func didAddSubview(_ subview: UIView) {
     super.didAddSubview(subview)
-    self.bringSubviewToFront(overlayView)
+    self.bringSubview(toFront: overlayView)
   }
   
-  private func setup() {
-    overlayView.autoresizingMask = [.FlexibleWidth,.FlexibleHeight]
+  fileprivate func setup() {
+    overlayView.autoresizingMask = [.flexibleWidth,.flexibleHeight]
     overlayView.frame = self.bounds
     self.addSubview(overlayView)
   }
   
-  override func sendEvent(event: UIEvent)
+  override func sendEvent(_ event: UIEvent)
   {
-    if self.active && event.type == .Touches {
-      if let touches = event.touchesForWindow(self) {
-        let activeTouches = touches.filter({[UITouchPhase.Began,.Stationary,.Moved].contains($0.phase)})
+    if self.active && event.type == .touches {
+      if let touches = event.touches(for: self) {
+        let activeTouches = touches.filter({[UITouchPhase.began,.stationary,.moved].contains($0.phase)})
         overlayView.activeTouches = Set(activeTouches)
       }
       else {
@@ -85,8 +85,8 @@ class TouchDisplayingWindow: UIWindow
     super.sendEvent(event)
   }
   
-  override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
-    let forceCapable = self.traitCollection.forceTouchCapability == .Available
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    let forceCapable = self.traitCollection.forceTouchCapability == .available
     NSLog("window.forceCapable=\(forceCapable)")
   }
 
@@ -116,9 +116,9 @@ private class OverlayGraphicView : UIView
     }
   }
   
-  let forceOverlayColor = UIColor.orangeColor()
-  let radiusOverlayColor = UIColor.whiteColor()
-  let radiusErrorColor = UIColor.lightGrayColor()
+  let forceOverlayColor = UIColor.orange
+  let radiusOverlayColor = UIColor.white
+  let radiusErrorColor = UIColor.lightGray
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -129,19 +129,19 @@ private class OverlayGraphicView : UIView
     setup()
   }
   
-  private func setup() {
-    backgroundColor = .clearColor()
-    userInteractionEnabled = false
+  fileprivate func setup() {
+    backgroundColor = .clear
+    isUserInteractionEnabled = false
   }
   
-  override func drawRect(rect: CGRect)
+  override func draw(_ rect: CGRect)
   {
     // draw force bubble
     let minimumRadius:CGFloat = 50
     let maximumRadius:CGFloat = 175
     
     for touch:UITouch in activeTouches {
-      let centerPoint = touch.locationInView(self)
+      let centerPoint = touch.location(in: self)
       let rawForce:Float = shouldDisplayForce ? Float(touch.force) : 0
       let fractionalForce:CGFloat = shouldDisplayForce ? (touch.force / touch.maximumPossibleForce)  : 0
       
@@ -149,7 +149,7 @@ private class OverlayGraphicView : UIView
       let majorRadiusTolerance = touch.majorRadiusTolerance
       
       forceOverlayColor.setStroke()
-      forceOverlayColor.colorWithAlphaComponent(0.2).setFill()
+      forceOverlayColor.withAlphaComponent(0.2).setFill()
       let radius:CGFloat = fractionalForce * (maximumRadius - minimumRadius) + minimumRadius
       let circlePath = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI * 2.0), clockwise: true)
       circlePath.lineWidth = CGFloat(2)
@@ -158,7 +158,7 @@ private class OverlayGraphicView : UIView
       
       if shouldDisplayRadius {
         radiusOverlayColor.setStroke()
-        radiusOverlayColor.colorWithAlphaComponent(0.2).setFill()
+        radiusOverlayColor.withAlphaComponent(0.2).setFill()
         let circlePath = UIBezierPath(arcCenter: centerPoint, radius: majorRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI * 2.0), clockwise: true)
         circlePath.lineWidth = CGFloat(2)
         circlePath.stroke()
@@ -168,10 +168,10 @@ private class OverlayGraphicView : UIView
       if shouldDisplayRadiusError {
         let fingerRadiusPlusError = majorRadius + majorRadiusTolerance
         let fingerRadiusMinusError = majorRadius - majorRadiusTolerance
-        radiusErrorColor.colorWithAlphaComponent(0.2).setFill()
+        radiusErrorColor.withAlphaComponent(0.2).setFill()
         let outerFingerCirclePath = UIBezierPath(arcCenter: centerPoint, radius: fingerRadiusPlusError, startAngle: CGFloat(0), endAngle: CGFloat(M_PI * 2.0), clockwise: true)
         let innerFingerCirclePath = UIBezierPath(arcCenter: centerPoint, radius: fingerRadiusMinusError, startAngle: CGFloat(0), endAngle: CGFloat(M_PI * 2.0), clockwise: false)
-        outerFingerCirclePath.appendPath(innerFingerCirclePath)
+        outerFingerCirclePath.append(innerFingerCirclePath)
         outerFingerCirclePath.usesEvenOddFillRule = false
         outerFingerCirclePath.fill()
       }
@@ -183,7 +183,7 @@ private class OverlayGraphicView : UIView
         let percentString = String(format:"f: %4.3f\u{2007}%2.0f%%",rawForce,Float(fractionalForce * 100)) as NSString
         let textAttributes = numericalTextAttributesWithSize(16, color: forceOverlayColor)
         let textOrigin = CGPoint(x: centerPoint.x + 40, y: centerPoint.y - 70)
-        percentString.drawAtPoint(textOrigin, withAttributes: textAttributes)
+        percentString.draw(at: textOrigin, withAttributes: textAttributes)
       }
       
       if shouldDisplayRadius && shouldDisplayLegends {
@@ -191,42 +191,42 @@ private class OverlayGraphicView : UIView
         let percentString = String(format:"r: %2.1f",Float(majorRadius)) as NSString
         let textAttributes = numericalTextAttributesWithSize(16, color: radiusOverlayColor)
         let textOrigin = CGPoint(x: centerPoint.x + 40, y: centerPoint.y + 70)
-        percentString.drawAtPoint(textOrigin, withAttributes: textAttributes)
+        percentString.draw(at: textOrigin, withAttributes: textAttributes)
       }
 
       // show only one touch's info in the big legend
       
-      func dist(a:UITouch) -> CGFloat {
-        return ((a.locationInView(self).x * a.locationInView(self).x) +
-          (a.locationInView(self).y * a.locationInView(self).y))
+      func dist(_ a:UITouch) -> CGFloat {
+        return ((a.location(in: self).x * a.location(in: self).x) +
+          (a.location(in: self).y * a.location(in: self).y))
       }
       
-      let isTopLeftMostTouch:Bool = touch == Array(activeTouches).sort({ dist($0) <= dist($1) }).first!
+      let isTopLeftMostTouch:Bool = touch == Array(activeTouches).sorted(by: { dist($0) <= dist($1) }).first!
       
       if shouldDisplayForce && shouldDisplayBigLegends && isTopLeftMostTouch {
         // draw force string
         let percentString = String(format:"f: %5.4f\u{2007}%2.0f%%",rawForce,Float(fractionalForce * 100)) as NSString
         let textAttributes = numericalTextAttributesWithSize(46, color: forceOverlayColor)
-        let textSize = percentString.sizeWithAttributes(textAttributes)
-        let textOrigin = CGPoint(x: CGRectGetMaxX(rect) - textSize.width, y: CGRectGetMinY(rect))
-        percentString.drawAtPoint(textOrigin, withAttributes: textAttributes)
+        let textSize = percentString.size(attributes: textAttributes)
+        let textOrigin = CGPoint(x: rect.maxX - textSize.width, y: rect.minY)
+        percentString.draw(at: textOrigin, withAttributes: textAttributes)
       }
       
       if shouldDisplayRadius && shouldDisplayBigLegends && isTopLeftMostTouch {
         // draw force string
         let percentString = String(format:"r: %3.2f",Float(majorRadius)) as NSString
         let textAttributes = numericalTextAttributesWithSize(46, color: radiusOverlayColor)
-        let textSize = percentString.sizeWithAttributes(textAttributes)
-        let textOrigin = CGPoint(x: CGRectGetMaxX(rect) - textSize.width, y: CGRectGetMaxY(rect) - textSize.height)
-        percentString.drawAtPoint(textOrigin, withAttributes: textAttributes)
+        let textSize = percentString.size(attributes: textAttributes)
+        let textOrigin = CGPoint(x: rect.maxX - textSize.width, y: rect.maxY - textSize.height)
+        percentString.draw(at: textOrigin, withAttributes: textAttributes)
       }
     }
   }
 }
 
-private func numericalTextAttributesWithSize(size:CGFloat,color:UIColor) -> [String:AnyObject] {
+private func numericalTextAttributesWithSize(_ size:CGFloat,color:UIColor) -> [String:AnyObject] {
   let attributes = [
-    NSFontAttributeName:UIFont.monospacedDigitSystemFontOfSize(size, weight: UIFontWeightMedium),
+    NSFontAttributeName:UIFont.monospacedDigitSystemFont(ofSize: size, weight: UIFontWeightMedium),
     NSForegroundColorAttributeName:color,
   ]
   return attributes

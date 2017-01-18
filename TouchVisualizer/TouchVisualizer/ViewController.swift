@@ -25,20 +25,20 @@ class ViewController: UIViewController {
 //    self.view.addGestureRecognizer(self.squeezeGR)
   }
 
-  func handleThreshhold(sender:ALG3DTouchThreshholdGestureRecognizer) {
+  func handleThreshhold(_ sender:ALG3DTouchThreshholdGestureRecognizer) {
     NSLog("==== callback: raw force=\(sender.currentTouch!.force) ")
     if let indexCrossed = sender.indexOfLastThreshholdReachedOrCrossed {
       NSLog("==== callback: crossingIndex = \(indexCrossed) crossedIncreasing=\(sender.lastThreshholdWasdReachedByIncrease)")
     }
 
-    func handleSqueeze(sender:AnyObject) {
+    func handleSqueeze(_ sender:AnyObject) {
       NSLog("squeeze detected")
     }
     
   }
   
-  override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
-    let forceCapable = self.traitCollection.forceTouchCapability == .Available
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    let forceCapable = self.traitCollection.forceTouchCapability == .available
     /*
     We let the view controller tell the custom UIWindow that it's running on a force-capable
     device, because `traitCollectionDidChange(previousTraitCollection:)` is not called on
@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     */
     NSLog("activating force display: \(forceCapable)")
     
-    if let win = UIApplication.sharedApplication().delegate?.window as? TouchDisplayingWindow {
+    if let win = UIApplication.shared.delegate?.window as? TouchDisplayingWindow {
       win.forceActive = forceCapable
     }
     else {

@@ -16,42 +16,42 @@ import UIKit.UIGestureRecognizerSubclass
 class ALGSqueezeGestureRecognizer: UIGestureRecognizer
 {
   class var mainScreenSupportsForce:Bool {
-    return UIScreen.mainScreen().traitCollection.forceTouchCapability == .Available
+    return UIScreen.main.traitCollection.forceTouchCapability == .available
   }
   
   /// force level required to count as a squeeze. Default is 0.5
   var squeezeThreshhold:CGFloat = 0.5
   
-  private func touchesWithAction(touches: Set<UITouch>, withEvent event: UIEvent, phase:UITouchPhase)
+  fileprivate func touchesWithAction(_ touches: Set<UITouch>, withEvent event: UIEvent, phase:UITouchPhase)
   {
     // switch on GR's current state, and on the type of touches... method that was called
     switch (self.state,phase) {
       // .Possible -> [.Recognized, .Failed, or no-op ]
-    case (.Possible, UITouchPhase.Began): fallthrough
-    case (.Possible, UITouchPhase.Moved): fallthrough
-    case (.Possible, UITouchPhase.Stationary): fallthrough
-    case (.Possible, UITouchPhase.Ended):
+    case (.possible, UITouchPhase.began): fallthrough
+    case (.possible, UITouchPhase.moved): fallthrough
+    case (.possible, UITouchPhase.stationary): fallthrough
+    case (.possible, UITouchPhase.ended):
       if touches.count == 1 && ALGSqueezeGestureRecognizer.mainScreenSupportsForce {
         let normalizedForce = touches.first!.force / touches.first!.maximumPossibleForce
         if normalizedForce >= self.squeezeThreshhold {
-          self.state = .Recognized
+          self.state = .recognized
         }
       }
       else {
-        self.state = .Failed
+        self.state = .failed
       }
       
-    case (.Possible, UITouchPhase.Cancelled):
-      self.state = .Failed
+    case (.possible, UITouchPhase.cancelled):
+      self.state = .failed
 
       // iOS handles evolving the GR from these states
-    case (.Failed,_): fallthrough
-    case (.Recognized(_),_):
+    case (.failed,_): fallthrough
+    case (.ended(_),_):
       break
       
-    case (.Changed,_): fallthrough
-    case (.Began,_): fallthrough
-    case (.Cancelled,_):
+    case (.changed,_): fallthrough
+    case (.began,_): fallthrough
+    case (.cancelled,_):
       assertionFailure("unreachable: this is a discrete not a continuous gesture recognizer")
       
     default:
@@ -64,24 +64,24 @@ class ALGSqueezeGestureRecognizer: UIGestureRecognizer
   // MARK: overrides
   //
   
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesBegan(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Began)
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesBegan(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .began)
   }
   
-  override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesMoved(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Moved)
+  override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesMoved(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .moved)
   }
   
-  override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesEnded(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Ended)
+  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesEnded(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .ended)
   }
   
-  override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesCancelled(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Cancelled)
+  override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesCancelled(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .cancelled)
   }
   
   override func reset() {
