@@ -40,11 +40,11 @@ class ALG3DTouchThreshholdGestureRecognizer: UIGestureRecognizer
     didSet {
       if normalizedForceThreshholds.isEmpty == false
       {
-        let isSorted = (normalizedForceThreshholds.sort() == normalizedForceThreshholds)
+        let isSorted = (normalizedForceThreshholds.sorted() == normalizedForceThreshholds)
         assert(isSorted, "ERROR: normalizedForceThreshholds must be a sorted array of numbers")
         let isBounded = normalizedForceThreshholds
-          .map({ ClosedInterval<CGFloat>(0,1).contains($0) })
-          .reduce(true, combine: { $0 && $1 })
+          .map({ (0 ... 1).contains($0) })
+          .reduce(true, { $0 && $1 })
         assert(isBounded, "ERROR: all numbers in normalizedForceThreshholds must be greater than or equal to 0 and less than or equal to 1")
         
         let (zones,indexes) = zonesAndThreshholdIndexesForThreshholds(normalizedForceThreshholds)
@@ -68,136 +68,136 @@ class ALG3DTouchThreshholdGestureRecognizer: UIGestureRecognizer
   /// contains the `UITouch` object being tracked by the receiver, and will be non-nil whenever the receiver recognizes and fires its action method
   var currentTouch:UITouch? {
     switch self.extendedState {
-    case .Possible,.Failed:      return nil
-    case .Began(let touch,_):    return touch
-    case .Changed(let touch,_):  return touch
-    case .Ended(let touch,_):    return touch
-    case .Canceled(let touch):   return touch
+    case .possible,.failed:      return nil
+    case .began(let touch,_):    return touch
+    case .changed(let touch,_):  return touch
+    case .ended(let touch,_):    return touch
+    case .canceled(let touch):   return touch
     }
   }
   
-  private(set) var indexOfLastThreshholdReachedOrCrossed:Int? = nil
-  private(set) var lastThreshholdWasdReachedByIncrease:Bool = false
+  fileprivate(set) var indexOfLastThreshholdReachedOrCrossed:Int? = nil
+  fileprivate(set) var lastThreshholdWasdReachedByIncrease:Bool = false
 
   //
   // private state properties
   //
   
   /// array of `Interval<CGFloat>`s, generated from the `normalizedForceThreshholds`
-  private var zones:[Interval<CGFloat>]? = nil
+  fileprivate var zones:[Interval<CGFloat>]? = nil
   /// indexes of threshhold zones, generated from the `normalizedForceThreshholds`
-  private var indexesOfThreshholdZones:[Int] = []
+  fileprivate var indexesOfThreshholdZones:[Int] = []
   
   /* Represents all the GR's internal state.
   
   The associated UITouch value is the touch being tracked for the gesture. The associated CGFloat is the normalized force from the last call to one of the `touches...` methods.
 
   */
-  private enum ExtendedState {
-    case Possible
-    case Failed
-    case Began(UITouch,CGFloat)
-    case Changed(UITouch,CGFloat)
-    case Ended(UITouch,CGFloat)
-    case Canceled(UITouch)
+  fileprivate enum ExtendedState {
+    case possible
+    case failed
+    case began(UITouch,CGFloat)
+    case changed(UITouch,CGFloat)
+    case ended(UITouch,CGFloat)
+    case canceled(UITouch)
   }
   
   
-  private var extendedState:ExtendedState = .Possible {
+  fileprivate var extendedState:ExtendedState = .possible {
     didSet(newValue) {
       switch extendedState {
-    case .Possible:      self.state = .Possible
-    case .Failed:        self.state = .Failed
-    case .Began(_,_):    self.state = .Began
-    case .Changed(_,_):  self.state = .Changed
-    case .Ended(_,_):    self.state = .Ended
-    case .Canceled(_):   self.state = .Cancelled
+    case .possible:      self.state = .possible
+    case .failed:        self.state = .failed
+    case .began(_,_):    self.state = .began
+    case .changed(_,_):  self.state = .changed
+    case .ended(_,_):    self.state = .ended
+    case .canceled(_):   self.state = .cancelled
     }
     }
   }
   
-  private func touchesWithAction(touches: Set<UITouch>, withEvent event: UIEvent, phase:UITouchPhase)
+  fileprivate func touchesWithAction(_ touches: Set<UITouch>, withEvent event: UIEvent, phase:UITouchPhase)
   {
     switch (self.extendedState,phase)
     {
       // assert: .Possible -> [.Began,.Failed]
-    case (.Possible, UITouchPhase.Began):
-      if let theTouch = touches.first where touches.count == 1 {
+    case (.possible, UITouchPhase.began):
+      if let theTouch = touches.first, touches.count == 1 {
         let wasReached = self.shouldReportThreshholdCrossingForInitialForce(theTouch.normalizedForce)
-        self.extendedState = .Began(theTouch,theTouch.normalizedForce)
+        self.extendedState = .began(theTouch,theTouch.normalizedForce)
         if  wasReached {  self.threshholdWasReachedOrCrossed?()  }
       }
       else {
         // ignore multitouch sequences which begin with more than two simultaneous touches
-        self.extendedState = .Failed
+        self.extendedState = .failed
       }
       
-    case (.Possible, _):
+    case (.possible, _):
       assertionFailure("unexpected call to non-touchesBegan when UIGestureRecognizer was in .Possible state")
-      self.extendedState = .Failed
+      self.extendedState = .failed
       break
       
       // assert: .Began -> [.Changed]
-    case (.Began(let touch, let lastNormalizedForce),let touchPhase):
+    case (.began(let touch, let lastNormalizedForce),let touchPhase):
       let wasReached = shouldReportThreshholdCrossingForForceChanged(lastNormalizedForce, currentNormalizedForce: touch.normalizedForce)
-      if touchPhase == UITouchPhase.Ended {
-        self.extendedState = .Ended(touch,touch.normalizedForce)
+      if touchPhase == UITouchPhase.ended {
+        self.extendedState = .ended(touch,touch.normalizedForce)
       }
-      else if touchPhase == UITouchPhase.Cancelled {
-        self.extendedState = .Canceled(touch)
+      else if touchPhase == UITouchPhase.cancelled {
+        self.extendedState = .canceled(touch)
       }
       else {
-        self.extendedState = .Changed(touch,touch.normalizedForce)
+        self.extendedState = .changed(touch,touch.normalizedForce)
       }
       if wasReached { self.threshholdWasReachedOrCrossed?() }
       
       // assert: .Changes -> [.Changed, .Canceled, .Ended]
-    case (.Changed(let touch, _), .Began):
+    case (.changed(let touch, _), .began):
       // if a touch began, it must not be the touch we are recognizing which has already begun
       for irrelevantTouch in touches.filter({ $0 != touch }) {
-        self.ignoreTouch(irrelevantTouch, forEvent: event)
+        self.ignore(irrelevantTouch, for: event)
       }
       
-    case (.Changed(let touch, let lastNormalizedForce),.Moved) where touches.contains(touch):
+    case (.changed(let touch, let lastNormalizedForce),.moved) where touches.contains(touch):
       // if the touch merely moved, maybe report force changes
       let wasReached = shouldReportThreshholdCrossingForForceChanged(lastNormalizedForce, currentNormalizedForce: touch.normalizedForce)
-      self.extendedState = .Changed(touch,touch.normalizedForce)
+      self.extendedState = .changed(touch,touch.normalizedForce)
       if wasReached { self.threshholdWasReachedOrCrossed?() }
       
-    case (.Changed(let touch, let lastNormalizedForce),.Stationary) where touches.contains(touch):
+    case (.changed(let touch, let lastNormalizedForce),.stationary) where touches.contains(touch):
       // if the touch did not move, maybe report force changes
       let wasReached = shouldReportThreshholdCrossingForForceChanged(lastNormalizedForce, currentNormalizedForce: touch.normalizedForce)
       // TODO: reconsider this. Do we even want to check .Stationary events. Or does the
       // API report all force-only changes as touches Moved?
-      self.extendedState = .Changed(touch,touch.normalizedForce)
+      self.extendedState = .changed(touch,touch.normalizedForce)
       if wasReached { self.threshholdWasReachedOrCrossed?() }
       
-    case (.Changed(let touch, let lastNormalizedForce),.Ended) where touches.contains(touch):
+    case (.changed(let touch, let lastNormalizedForce),.ended) where touches.contains(touch):
       // if the tracked touch ended, always report its final force
       let wasReached = self.shouldReportThreshholdCrossingForForceChanged(lastNormalizedForce, currentNormalizedForce: touch.normalizedForce)
-      self.extendedState = .Ended(touch,touch.normalizedForce)
+      self.extendedState = .ended(touch,touch.normalizedForce)
       if wasReached { self.threshholdWasReachedOrCrossed?() }
       
       
-    case (.Changed(let touch,_),.Cancelled) where touches.contains(touch):
+    case (.changed(let touch,_),.cancelled) where touches.contains(touch):
       // if the entire multitouch sequence was cancelled, cancel the gesture as well
-      self.extendedState = .Canceled(touch)
+      self.extendedState = .canceled(touch)
       
-    case (.Changed(let touch,_),_) where !touches.contains(touch):
+    case (.changed(let touch,_),_) where !touches.contains(touch):
       // we were just passed a touch that we said we were ignoring. UIKit, why???
       NSLog("touches%@ called a Changed gesture recognizer with an ignored touch. Event: %@",phase.description,event)
       break
       
-    case (.Changed(_),let phase):
+    case (.changed(_),let phase):
       assertionFailure("Should be unreachable")
       NSLog("unexpected call to touches\(phase.description) for this event \(event)")
       break
       
       // assert: no transition requirements from .Failed, .Ended, .Canceled. 
       // UIKit is responsible for transitioning from these states by calling `reset()`
-    case (.Failed,_): fallthrough
-    case (.Ended(_,_),_): fallthrough
-    case (.Canceled(_),_):
+    case (.failed,_): fallthrough
+    case (.ended(_,_),_): fallthrough
+    case (.canceled(_),_):
       break
     }
   }
@@ -214,11 +214,11 @@ class ALG3DTouchThreshholdGestureRecognizer: UIGestureRecognizer
      2. to reach the current normalized force through a continuous change must have required the value to to cross one or more of the threshholds.
 
    */
-  private func shouldReportThreshholdCrossingForForceChanged(lastNormalizedForce:CGFloat,currentNormalizedForce:CGFloat) -> Bool
+  fileprivate func shouldReportThreshholdCrossingForForceChanged(_ lastNormalizedForce:CGFloat,currentNormalizedForce:CGFloat) -> Bool
   {
     if currentNormalizedForce == lastNormalizedForce { return false }
 
-    guard let theZones = self.zones where !theZones.isEmpty else {
+    guard let theZones = self.zones, !theZones.isEmpty else {
         // GR was configured with no threshholds, so this is not a threshhold event
         return false
     }
@@ -226,10 +226,10 @@ class ALG3DTouchThreshholdGestureRecognizer: UIGestureRecognizer
     let result = evaluateForceChangeWithZones(lastNormalizedForce, currentNormalizedForce: currentNormalizedForce, zones: theZones, indexesOfThreshholdZones: self.indexesOfThreshholdZones)
 
     switch result {
-    case .Ignore:
+    case .ignore:
       return false
 
-    case .ForceChanged(
+    case .forceChanged(
         indexOfLastThreshholdReachedOrCrossed: let indexOfLastThreshholdReachedOrCrossed,
         threshholdReachedByIncreased: let threshholdReachedByIncreased):
       
@@ -243,7 +243,7 @@ class ALG3DTouchThreshholdGestureRecognizer: UIGestureRecognizer
   /**
   Returns whether the initial foce of a touchesBegan touch should be recognized, and updates output parameters if needed.
   */
-  private func shouldReportThreshholdCrossingForInitialForce(normalizedForce:CGFloat) -> Bool
+  fileprivate func shouldReportThreshholdCrossingForInitialForce(_ normalizedForce:CGFloat) -> Bool
   {
     /*
     
@@ -282,24 +282,24 @@ class ALG3DTouchThreshholdGestureRecognizer: UIGestureRecognizer
   // MARK: overrides
   //
   
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesBegan(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Began)
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesBegan(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .began)
   }
   
-  override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesMoved(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Moved)
+  override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesMoved(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .moved)
   }
   
-  override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesEnded(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Ended)
+  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesEnded(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .ended)
   }
   
-  override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesCancelled(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Cancelled)
+  override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesCancelled(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .cancelled)
   }
   
   override func reset()
@@ -307,7 +307,7 @@ class ALG3DTouchThreshholdGestureRecognizer: UIGestureRecognizer
     super.reset()
     self.indexOfLastThreshholdReachedOrCrossed = nil
     self.lastThreshholdWasdReachedByIncrease = false
-    self.extendedState = .Possible
+    self.extendedState = .possible
   }
 }
 
@@ -322,8 +322,8 @@ private extension UITouch
 
 
 private enum ForceChangeResult {
-  case Ignore
-  case ForceChanged(indexOfLastThreshholdReachedOrCrossed:Int,threshholdReachedByIncreased:Bool)
+  case ignore
+  case forceChanged(indexOfLastThreshholdReachedOrCrossed:Int,threshholdReachedByIncreased:Bool)
 }
 
 /**
@@ -338,20 +338,20 @@ private enum ForceChangeResult {
  - note: pure.
  
  */
-private func evaluateForceChangeWithZones(lastNormalizedForce:CGFloat, currentNormalizedForce:CGFloat, zones:[Interval<CGFloat>], indexesOfThreshholdZones:[Int]) -> ForceChangeResult
+private func evaluateForceChangeWithZones(_ lastNormalizedForce:CGFloat, currentNormalizedForce:CGFloat, zones:[Interval<CGFloat>], indexesOfThreshholdZones:[Int]) -> ForceChangeResult
 {
-  guard currentNormalizedForce != lastNormalizedForce else { return .Ignore }
+  guard currentNormalizedForce != lastNormalizedForce else { return .ignore }
   
   guard
-    let indexOfLastForce = zones.indexOf({ $0.contains(lastNormalizedForce) }),
-    let indexOfCurrentForce = zones.indexOf({ $0.contains(currentNormalizedForce) })
+    let indexOfLastForce = zones.index(where: { $0.contains(lastNormalizedForce) }),
+    let indexOfCurrentForce = zones.index(where: { $0.contains(currentNormalizedForce) })
     else {
-      NSLog("\(__FUNCTION__): ERROR: zones should cover all the 0...1 interval, but I was unable to fine the index for the zone which contained either the currentNormalizedForce or the lastNormalizedForce")
-      return .Ignore
+      NSLog("\(#function): ERROR: zones should cover all the 0...1 interval, but I was unable to fine the index for the zone which contained either the currentNormalizedForce or the lastNormalizedForce")
+      return .ignore
   }
 
-  func threshholdIndexForThreshholdZoneIndex(zoneIndex:Int) -> Int {
-    if let threshholdPosition = indexesOfThreshholdZones.indexOf(zoneIndex) {
+  func threshholdIndexForThreshholdZoneIndex(_ zoneIndex:Int) -> Int {
+    if let threshholdPosition = indexesOfThreshholdZones.index(of: zoneIndex) {
       return threshholdPosition
     }
     else {
@@ -365,7 +365,7 @@ private func evaluateForceChangeWithZones(lastNormalizedForce:CGFloat, currentNo
   
   if indexDelta == 0 {
     // no movement from one zone to another, so nothing to report
-    return .Ignore
+    return .ignore
   }
   else if currentForceIsOnThreshhold {
     // landed directly on a threshhold zone, so report this change
@@ -373,18 +373,18 @@ private func evaluateForceChangeWithZones(lastNormalizedForce:CGFloat, currentNo
     let didIncrease = indexDelta > 0
     let lastThreshholdZoneReachedIndex = indexOfCurrentForce
     let lastThresholdReachedIndex = threshholdIndexForThreshholdZoneIndex(lastThreshholdZoneReachedIndex)
-    return .ForceChanged(indexOfLastThreshholdReachedOrCrossed:lastThresholdReachedIndex,threshholdReachedByIncreased:didIncrease)
+    return .forceChanged(indexOfLastThreshholdReachedOrCrossed:lastThresholdReachedIndex,threshholdReachedByIncreased:didIncrease)
   }
   else
   {
     // landed in an area zone. Which threshholds if any did we cross to get here?
-    let interveningIndexesStartItem = min(indexOfCurrentForce, indexOfLastForce).successor()
+    let interveningIndexesStartItem = (min(indexOfCurrentForce, indexOfLastForce) + 1)
     let interveningIndexesEndItem = max(indexOfCurrentForce, indexOfLastForce)
-    let interveningZoneIndexes = Range(start: interveningIndexesStartItem , end: interveningIndexesEndItem)
-    let crossedThreshholdIndexes = interveningZoneIndexes.filter({ indexesOfThreshholdZones.contains($0) }).sort()
+    let interveningZoneIndexes = (interveningIndexesStartItem ..< interveningIndexesEndItem)
+    let crossedThreshholdIndexes = interveningZoneIndexes.filter({ indexesOfThreshholdZones.contains($0) }).sorted()
     
     if crossedThreshholdIndexes.isEmpty {
-      return .Ignore
+      return .ignore
     }
     else {
       // this exit means we report ONCE even if the change in force means that we crossed two threshholds
@@ -393,7 +393,7 @@ private func evaluateForceChangeWithZones(lastNormalizedForce:CGFloat, currentNo
       let lastThreshholdZoneCrossedIndex = didIncrease ? crossedThreshholdIndexes.last! : crossedThreshholdIndexes.first!
       let threshholdIndexForZoneIndex = threshholdIndexForThreshholdZoneIndex(lastThreshholdZoneCrossedIndex)
       
-      return .ForceChanged(indexOfLastThreshholdReachedOrCrossed:threshholdIndexForZoneIndex,threshholdReachedByIncreased:didIncrease)
+      return .forceChanged(indexOfLastThreshholdReachedOrCrossed:threshholdIndexForZoneIndex,threshholdReachedByIncreased:didIncrease)
     }
   }
   
@@ -407,28 +407,28 @@ private func evaluateForceChangeWithZones(lastNormalizedForce:CGFloat, currentNo
  - note: Pure. This helper essentially lets us think about force changes in terms of discrete movements through a finite set of zones, rather than as float moving around a continuum.
  
 */
-private func zonesAndThreshholdIndexesForThreshholds(threshholds:[CGFloat]) -> ([Interval<CGFloat>],[Int])
+private func zonesAndThreshholdIndexesForThreshholds(_ threshholds:[CGFloat]) -> ([Interval<CGFloat>],[Int])
 {
   guard threshholds.isEmpty == false else { return ([],[]) }
   
-  let threshholdZones = threshholds.map({ Interval.ClosedClosed(ClosedInterval($0,$0)) })
-  let gapZones = Array(zip(threshholds, threshholds.dropFirst())).map({Interval.OpenOpen(OpenOpenInterval($0.0,$0.1))})
+  let threshholdZones = threshholds.map({ Interval.closedClosed(($0 ... $0)) })
+  let gapZones = Array(zip(threshholds, threshholds.dropFirst())).map({Interval.openOpen(OpenOpenInterval($0.0,$0.1))})
   let threshholdsAndInterveningGaps:[Interval<CGFloat>] = Array(zip(threshholdZones,gapZones)).flatMap({ [$0.0,$0.1] }) + [threshholdZones.last!]
 
   // add initial and terminal gap zones, if needed
   var allZones = threshholdsAndInterveningGaps
   if threshholds.first! != CGFloat(0) {
-    allZones.insert(Interval.ClosedOpen(HalfOpenInterval(CGFloat(0),threshholds.first!)), atIndex: 0)
+    allZones.insert(Interval.closedOpen((CGFloat(0) ..< threshholds.first!)), at: 0)
   }
   if threshholds.last! != CGFloat(1) {
-    allZones.append(Interval.OpenClosed(OpenClosedInterval(threshholds.last!,CGFloat(1))))
+    allZones.append(Interval.openClosed(OpenClosedInterval(threshholds.last!,CGFloat(1))))
   }
  
   // collect the indexes of zones representing threshholds
-  let indexesOfThreshholdZones = Array(allZones.enumerate()).filter({
-    switch $1 { case .ClosedClosed(_): return true
+  let indexesOfThreshholdZones = Array(allZones.enumerated()).filter({
+    switch $1 { case .closedClosed(_): return true
     default: return false
-    }}).map({$0.index})
+    }}).map({$0.0})
   
   return (allZones,indexesOfThreshholdZones)
 }
@@ -438,17 +438,17 @@ private func zonesAndThreshholdIndexesForThreshholds(threshholds:[CGFloat]) -> (
 
 // poor man's subtype polymorphism
 private enum Interval<T:Comparable> {
-  case OpenOpen(OpenOpenInterval<T>)
-  case ClosedClosed(ClosedInterval<T>)
-  case ClosedOpen(HalfOpenInterval<T>)
-  case OpenClosed(OpenClosedInterval<T>)
+  case openOpen(OpenOpenInterval<T>)
+  case closedClosed(ClosedRange<T>)
+  case closedOpen(Range<T>)
+  case openClosed(OpenClosedInterval<T>)
   
-  func contains(value:T) -> Bool {
+  func contains(_ value:T) -> Bool {
     switch self {
-    case .OpenOpen(let x): return x.contains(value)
-    case .ClosedClosed(let x): return x.contains(value)
-    case .ClosedOpen(let x): return x.contains(value)
-    case .OpenClosed(let x): return x.contains(value)
+    case .openOpen(let x): return x.contains(value)
+    case .closedClosed(let x): return x.contains(value)
+    case .closedOpen(let x): return x.contains(value)
+    case .openClosed(let x): return x.contains(value)
     }
   }
 }
@@ -466,17 +466,17 @@ private struct OpenOpenInterval<T:Comparable> {
   }
 }
 
-extension OpenOpenInterval : IntervalType {
+extension OpenOpenInterval {
   typealias Bound = T
   var isEmpty:Bool {
     return !(start < end)
   }
   
-  func contains(value: OpenOpenInterval.Bound) -> Bool {
+  func contains(_ value: OpenOpenInterval.Bound) -> Bool {
     return start < value && value < end
   }
   
-  func clamp(intervalToClamp: OpenOpenInterval) -> OpenOpenInterval {
+  func clamp(_ intervalToClamp: OpenOpenInterval) -> OpenOpenInterval {
     let maxStart = max(self.start,intervalToClamp.start)
     let minEnd = max(self.end,intervalToClamp.end)
     return OpenOpenInterval(maxStart, minEnd)
@@ -502,17 +502,17 @@ private struct OpenClosedInterval<T:Comparable> {
   }
 }
 
-extension OpenClosedInterval : IntervalType {
+extension OpenClosedInterval {
   typealias Bound = T
   var isEmpty:Bool {
     return false
   }
   
-  func contains(value: OpenClosedInterval.Bound) -> Bool {
+  func contains(_ value: OpenClosedInterval.Bound) -> Bool {
     return start < value && value <= end
   }
   
-  func clamp(intervalToClamp: OpenClosedInterval) -> OpenClosedInterval {
+  func clamp(_ intervalToClamp: OpenClosedInterval) -> OpenClosedInterval {
     let maxStart = max(self.start,intervalToClamp.start)
     let minEnd = max(self.end,intervalToClamp.end)
     return OpenClosedInterval(maxStart, minEnd)

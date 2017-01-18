@@ -22,88 +22,88 @@ Given a valid multitouch sequence, that multitouch sequence contains an initial 
  */
 class ALGInitialTouchSequenceGestureRecognizer: UIGestureRecognizer
 {
-  private enum ExtendedState {
-    case Possible,Began(UITouch),Failed,Changed(UITouch),Ended(UITouch),Canceled(UITouch)
+  fileprivate enum ExtendedState {
+    case possible,began(UITouch),failed,changed(UITouch),ended(UITouch),canceled(UITouch)
   }
 
   /// contains the `UITouch` object, and will be non-nil whenever the receiver fires its action callback
   var currentTouch:UITouch? {
     switch self.extendedState {
-    case .Possible,.Failed:    return nil
-    case .Began(let touch):    return touch
-    case .Changed(let touch):  return touch
-    case .Ended(let touch):    return touch
-    case .Canceled(let touch): return touch
+    case .possible,.failed:    return nil
+    case .began(let touch):    return touch
+    case .changed(let touch):  return touch
+    case .ended(let touch):    return touch
+    case .canceled(let touch): return touch
     }
   }
 
-  private var extendedState:ExtendedState = .Possible { didSet {
+  fileprivate var extendedState:ExtendedState = .possible { didSet {
     switch extendedState {
-    case .Possible:    self.state = .Possible
-    case .Failed:      self.state = .Failed
-    case .Began(_):    self.state = .Began
-    case .Changed(_):  self.state = .Changed
-    case .Ended(_):    self.state = .Ended
-    case .Canceled(_): self.state = .Cancelled
+    case .possible:    self.state = .possible
+    case .failed:      self.state = .failed
+    case .began(_):    self.state = .began
+    case .changed(_):  self.state = .changed
+    case .ended(_):    self.state = .ended
+    case .canceled(_): self.state = .cancelled
     }
     }
   }
   
-  private func touchesWithAction(touches: Set<UITouch>, withEvent event: UIEvent, phase:UITouchPhase)
+  fileprivate func touchesWithAction(_ touches: Set<UITouch>, withEvent event: UIEvent, phase:UITouchPhase)
   {
     switch (self.extendedState,phase)
     {
       // assert: .Possible -> [.Began,.Failed]
-    case (.Possible, UITouchPhase.Began):
+    case (.possible, UITouchPhase.began):
       if touches.count == 1 {
-        self.extendedState = .Began(touches.first!)
+        self.extendedState = .began(touches.first!)
       }
       else {
         // ignore multitouch sequences which begin with more than two simultaneous touches
-        self.extendedState = .Failed
+        self.extendedState = .failed
       }
       
-    case (.Possible, _):
+    case (.possible, _):
       assertionFailure("unexpected call to non-touchesBegan when UIGestureRecognizer was in .Possible state")
-      self.extendedState = .Failed
+      self.extendedState = .failed
       break
 
       // assert: .Began -> [.Changed]
-    case (.Began(let currentTouch),_):
-      self.extendedState = .Changed(currentTouch)
+    case (.began(let currentTouch),_):
+      self.extendedState = .changed(currentTouch)
 
       // assert: .Changes -> [.Changed, .Canceled, .Ended]
-    case (.Changed(let touch), .Began):
+    case (.changed(let touch), .began):
       // if a touch began, it must not be the touch we are recognizing which already began
       for irrelevantTouch in touches.filter({ $0 != touch }) {
-        self.ignoreTouch(irrelevantTouch, forEvent: event)
+        self.ignore(irrelevantTouch, for: event)
       }
 
-    case (.Changed(let touch),.Moved) where touches.contains(touch):
-      self.extendedState = .Changed(touch)
+    case (.changed(let touch),.moved) where touches.contains(touch):
+      self.extendedState = .changed(touch)
       
-    case (.Changed(let touch),.Stationary) where touches.contains(touch):
-      self.extendedState = .Changed(touch)
+    case (.changed(let touch),.stationary) where touches.contains(touch):
+      self.extendedState = .changed(touch)
       
-    case (.Changed(let touch),.Ended) where touches.contains(touch):
-      self.extendedState = .Ended(touch)
+    case (.changed(let touch),.ended) where touches.contains(touch):
+      self.extendedState = .ended(touch)
 
-    case (.Changed(let touch),.Cancelled) where touches.contains(touch):
-      self.extendedState = .Canceled(touch)
+    case (.changed(let touch),.cancelled) where touches.contains(touch):
+      self.extendedState = .canceled(touch)
 
-    case (.Changed(let touch),_) where !touches.contains(touch):
+    case (.changed(let touch),_) where !touches.contains(touch):
       //  NSLog("touches%@ called a Changed gesture recognizer with an ignored touch. Event: %@",method.description,event)
       break
 
-    case (.Changed(_),let phase):
+    case (.changed(_),let phase):
       assertionFailure("Should be unreachable")
       NSLog("unexpected call to touches\(phase.description) for this event \(event)")
       break
 
       // assert: no transition requirements from .Failed, .Ended, .Canceled
-    case (.Failed,_): fallthrough
-    case (.Ended(_),_): fallthrough
-    case (.Canceled(_),_):
+    case (.failed,_): fallthrough
+    case (.ended(_),_): fallthrough
+    case (.canceled(_),_):
       break
     }
   }
@@ -112,29 +112,29 @@ class ALGInitialTouchSequenceGestureRecognizer: UIGestureRecognizer
   // MARK: overrides
   //
   
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesBegan(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Began)
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesBegan(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .began)
   }
   
-  override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesMoved(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Moved)
+  override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesMoved(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .moved)
   }
   
-  override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesEnded(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Ended)
+  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesEnded(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .ended)
   }
   
-  override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
-    super.touchesCancelled(touches, withEvent: event)
-    self.touchesWithAction(touches, withEvent: event, phase: .Cancelled)
+  override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
+    super.touchesCancelled(touches, with: event)
+    self.touchesWithAction(touches, withEvent: event, phase: .cancelled)
   }
   
   override func reset() {
     super.reset()
-    self.extendedState = .Possible
+    self.extendedState = .possible
   }
 }
 
@@ -143,11 +143,11 @@ class ALGInitialTouchSequenceGestureRecognizer: UIGestureRecognizer
 extension UITouchPhase {
   var description:String {
     switch self {
-    case .Began: return "Began"
-    case .Cancelled: return "Cancelled"
-    case .Ended: return "Ended"
-    case .Moved: return "Moved"
-    case .Stationary: return "Stationary"
+    case .began: return "Began"
+    case .cancelled: return "Cancelled"
+    case .ended: return "Ended"
+    case .moved: return "Moved"
+    case .stationary: return "Stationary"
     }
   }
 }
